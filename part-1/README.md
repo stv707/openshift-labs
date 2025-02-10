@@ -1,4 +1,4 @@
-# OpenShift 4.15 Labs - Part 1 
+## Part-1: OpenShift 4.15 Labs 
 
 ## Introduction
 This repository contains a set of labs for students learning OpenShift 4.15. Each student will use a single shared namespace, so all resource names should be uniquely prefixed with their username.
