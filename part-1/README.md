@@ -29,29 +29,34 @@ Learn how to log into the OpenShift cluster using the CLI.
 
 ---
 
-## Lab 2: Tagging and Pushing an Image to OpenShift Registry
-### Objective:
-Use Docker Desktop to tag an image and push it to the OpenShift internal registry.
+### Lab 2: Pulling, Tagging, and Pushing an Image to OpenShift Registry
+#### Objective:
+Download an image from Docker Hub, tag it, and push it to the OpenShift internal registry.
 
-### Steps:
-1. Get the OpenShift registry login token:
+#### Steps:
+1. Pull the image from Docker Hub:
    ```sh
-   oc whoami -t
+   docker pull bitnami/nginx:latest
    ```
-2. Login to the OpenShift registry:
+2. Tag the image with the OpenShift registry:
+   ```sh
+   docker tag bitnami/nginx:latest default-route-openshift-image-registry.apps-crc.testing/shared-namespace/nginx-<username>:latest
+   ```
+3. Login to OpenShift’s internal registry:
    ```sh
    docker login -u <your-username> -p $(oc whoami -t) default-route-openshift-image-registry.apps-crc.testing
    ```
-3. Tag the image (using a unique tag, e.g., `myapp-<username>`):
+4. Push the image to OpenShift:
    ```sh
-   docker tag myapp:v1 default-route-openshift-image-registry.apps-crc.testing/trainingdev/myapp-<username>:v1
+   docker push default-route-openshift-image-registry.apps-crc.testing/shared-namespace/nginx-<username>:latest
    ```
-4. Push the image:
+5. Verify the image is available:
    ```sh
-   docker push default-route-openshift-image-registry.apps-crc.testing/trainingdev/myapp-<username>:v1
+   oc get imagestreams
    ```
 
 ---
+
 
 ## Lab 3: Deploying the Image in OpenShift
 ### Objective:
