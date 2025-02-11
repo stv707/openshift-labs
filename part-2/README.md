@@ -78,7 +78,7 @@ Perform rolling updates and rollbacks in OpenShift.
 
 4. Update the image in the deployment
    ```sh 
-   oc set image deployment/kubia-<username> kubia-<username>e=stv707/kubia:v2
+   oc set image deployment/kubia-<username> kubia-<username>=stv707/kubia:v2
    ```
    - Verify the application showing v2 now 
 
