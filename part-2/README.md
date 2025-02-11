@@ -72,6 +72,35 @@ Perform rolling updates and rollbacks in OpenShift.
    oc rollout undo deployment/nodeapp-<username>
    ```
 
+### Updated steps to test with a ready made Container Image: 
+
+1. Run this to create a new App: 
+
+   ```sh 
+   oc new-app --name=kubia-<username> --image=stv707/kubia:v1 
+   ```
+
+2. Expose the application
+   ```sh 
+   oc expose deployment kubia-<username> --port=8080 --target-port=8080
+
+   oc expose service/kubia-<username>
+   ```
+
+3. Get the route and verify the application is working 
+   ```sh 
+   oc get routes 
+   ```
+
+4. Update the image in the deployment
+   ```sh 
+   oc set image deployment/kubia-<username> kubia-steve=stv707/kubia:v2
+   ```
+
+5. Rollback to a previous version:
+   ```sh
+   oc rollout undo deployment/kubia-<username>
+   ```
 ---
 
 ### Lab 10: Resource Limits and Auto-Scaling
