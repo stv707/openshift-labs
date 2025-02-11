@@ -48,7 +48,7 @@ Understand OpenShift's automated builds and deployments.
    ```
 2. View deployment configurations:
    ```sh
-   oc get dc
+   oc get deployment
    ```
 
 ---
@@ -60,11 +60,11 @@ Perform rolling updates and rollbacks in OpenShift.
 #### Steps:
 1. Update the deployment:
    ```sh
-   oc edit dc nodeapp-<username>
+   oc edit deployment nodeapp-<username>
    ```
 2. Rollback to a previous version:
    ```sh
-   oc rollout undo dc/nodeapp-<username>
+   oc rollout undo deployment/nodeapp-<username>
    ```
 
 ---
