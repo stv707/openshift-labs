@@ -56,22 +56,6 @@ Understand OpenShift's automated builds and deployments.
 ### Lab 9: Rolling Updates and Rollbacks
 #### Objective:
 Perform rolling updates and rollbacks in OpenShift.
-
-#### Steps:
-1. Update the deployment:
-   ```sh
-   oc edit deployment nodeapp-<username>
-   ```
-   - look for container image and change that 
-   - change the image to stv707/kubia:v1
-
-2. Verify from url that the new image is in place 
-
-3. Rollback to a previous version:
-   ```sh
-   oc rollout undo deployment/nodeapp-<username>
-   ```
-
 ### Updated steps to test with a ready made Container Image: 
 
 1. Run this to create a new App: 
@@ -96,11 +80,13 @@ Perform rolling updates and rollbacks in OpenShift.
    ```sh 
    oc set image deployment/kubia-<username> kubia-steve=stv707/kubia:v2
    ```
+   - Verify the application showing v2 now 
 
 5. Rollback to a previous version:
    ```sh
    oc rollout undo deployment/kubia-<username>
    ```
+   -- Verify the application showing v1 now ( rollback )
 ---
 
 ### Lab 10: Resource Limits and Auto-Scaling
