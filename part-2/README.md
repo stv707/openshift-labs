@@ -62,7 +62,12 @@ Perform rolling updates and rollbacks in OpenShift.
    ```sh
    oc edit deployment nodeapp-<username>
    ```
-2. Rollback to a previous version:
+   - look for container image and change that 
+   - change the image to stv707/kubia:v1
+
+2. Verify from url that the new image is in place 
+
+3. Rollback to a previous version:
    ```sh
    oc rollout undo deployment/nodeapp-<username>
    ```
