@@ -78,7 +78,7 @@ Perform rolling updates and rollbacks in OpenShift.
 
 4. Update the image in the deployment
    ```sh 
-   oc set image deployment/kubia-<username> kubia-steve=stv707/kubia:v2
+   oc set image deployment/kubia-<username> kubia-<username>e=stv707/kubia:v2
    ```
    - Verify the application showing v2 now 
 
@@ -102,7 +102,6 @@ Set resource limits and configure auto-scaling for the deployment.
    ```sh
    oc autoscale deployment nodeapp-<username> --min=1 --max=5 --cpu-percent=80
    ```
-
 ---
 
 ## Notes
