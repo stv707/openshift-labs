@@ -26,7 +26,7 @@ spec:
       storage: 8Gi
 ```
 
-Run the command to create PVC and verify its ready 
+- Run the command to create PVC and verify its ready 
 
 ```sh 
 oc apply -f mssql-data.yaml
@@ -138,7 +138,6 @@ oc get service
 
 
 ## Step 4: Verify Deployment logs 
-
 To check logs:
 ```sh
 oc logs deployment/mssql-deployment-<username>
@@ -147,7 +146,7 @@ oc logs deployment/mssql-deployment-<username>
 ## Step 5: Accessing SQL Server
 To connect to the SQL Server container, open a terminal session inside the running pod:
 ```sh
-oc rsh deployment/mssql-deployment-steve
+oc rsh deployment/mssql-deployment-steve bash
 ```
 Inside the pod, connect using `sqlcmd`:
 ```sh
