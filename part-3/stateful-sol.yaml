@@ -11,10 +11,10 @@ spec:
   template:
     metadata:
       labels:
-        app: postgresql
+        app: postgresql-steve
     spec:
       containers:
-      - name: postgresql
+      - name: postgresql-steve
         image: bitnami/postgresql:latest
         env:
         - name: POSTGRESQL_USER

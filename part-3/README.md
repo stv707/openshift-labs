@@ -56,7 +56,7 @@ Deploy a PostgreSQL instance as a StatefulSet using the PVC.
       template:
         metadata:
           labels:
-            app: postgresql
+            app: postgresql-<username>  # Change this
         spec:
           containers:
           - name: postgresql
