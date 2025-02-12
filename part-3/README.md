@@ -5,21 +5,26 @@
 Request storage from the default storage class.
 
 #### Steps:
-1. Create a Persistent Volume Claim (PVC):
+1. Create a Persistent Volume Claim (PVC) yaml:
+   - make sure you name the volume ( change the username to your name )
+
    ```sh
-   cat <<EOF | oc apply -f -
    apiVersion: v1
    kind: PersistentVolumeClaim
    metadata:
-     name: postgresql-pvc-<username>
+     name: postgresql-pvc-<username> # Change this 
    spec:
      accessModes:
        - ReadWriteOnce
      resources:
        requests:
          storage: 1Gi
-   EOF
    ```
+   
+   ```sh 
+   oc apply -f volume-pvc.yaml 
+   ```
+
 2. Verify the PVC status:
    ```sh
    oc get pvc
@@ -33,46 +38,49 @@ Deploy a PostgreSQL instance as a StatefulSet using the PVC.
 
 #### Steps:
 1. Deploy PostgreSQL:
+   - the filename is stateful.yaml
+   - change the user, password and volume claim name 
+
+
    ```sh
-   cat <<EOF | oc apply -f -
-   apiVersion: apps/v1
-   kind: StatefulSet
-   metadata:
-     name: postgresql-<username>
-   spec:
-     serviceName: "postgresql"
-     replicas: 1
-     selector:
-       matchLabels:
-         app: postgresql
-     template:
-       metadata:
-         labels:
-           app: postgresql
-       spec:
-         containers:
-         - name: postgresql
-           image: bitnami/postgresql:latest
-           env:
-           - name: POSTGRESQL_USER
-             value: "user"
-           - name: POSTGRESQL_PASSWORD
-             value: "password"
-           - name: POSTGRESQL_DATABASE
-             value: "sampledb"
-           volumeMounts:
-           - mountPath: "/bitnami/postgresql"
-             name: postgresql-storage
-     volumeClaimTemplates:
-     - metadata:
-         name: postgresql-storage
-       spec:
-         accessModes: [ "ReadWriteOnce" ]
-         resources:
-           requests:
-             storage: 1Gi
-   EOF
+    apiVersion: apps/v1
+    kind: StatefulSet
+    metadata:
+      name: postgresql-<username> # Change this 
+    spec:
+      serviceName: "postgresql"
+      replicas: 1
+      selector:
+        matchLabels:
+          app: postgresql-<username> # Change this
+      template:
+        metadata:
+          labels:
+            app: postgresql
+        spec:
+          containers:
+          - name: postgresql
+            image: bitnami/postgresql:latest
+            env:
+            - name: POSTGRESQL_USER
+              value: "user"
+            - name: POSTGRESQL_PASSWORD
+              value: "password2025"
+            - name: POSTGRESQL_DATABASE
+              value: "sampledb"
+            volumeMounts:
+            - mountPath: "/bitnami/postgresql"
+              name: postgresql-storage  # Ensure this matches the volume name below
+          volumes:
+          - name: postgresql-storage
+            persistentVolumeClaim:
+              claimName: postgresql-pvc-<username> # Change this 
    ```
+   ```sh 
+   oc apply -f stateful.yaml 
+   ```
+
+
 2. Verify the StatefulSet:
    ```sh
    oc get pods
@@ -99,6 +107,11 @@ Create a database, store data, and verify persistence.
    INSERT INTO test (name) VALUES ('OpenShift Test');
    SELECT * FROM test;
    ```
+4. Exit from the shell 
+   ```sh 
+   sampledb=> exit ; 
+   $ exit
+   ```
 
 ---
 
@@ -117,6 +130,19 @@ Scale PostgreSQL and see how persistent storage is handled.
    oc get pvc
    ```
 
+3. Connect to the first instance of Database and check the data
+  ```sh 
+  oc rsh postgresql-<username>-0
+  $ psql -U user -d sampledb -c "SELECT * FROM test;"
+  $exit
+  ```
+
+4. Connect to the second instance of Database and check the data
+  ```sh 
+  oc rsh postgresql-<username>-1
+  $ psql -U user -d sampledb -c "SELECT * FROM test;"
+  $ exit
+  ```
 ---
 
 ### Lab 15: Simulating a Pod Failure & Verifying Data Persistence
@@ -136,13 +162,8 @@ Delete a PostgreSQL pod and ensure data remains intact.
    ```sh
    oc rsh statefulset/postgresql-<username>
    psql -U user -d sampledb -c "SELECT * FROM test;"
+
+   $ exit 
    ```
 
 ---
-
-## Notes
-- Ensure all resource names include `-<username>` to prevent conflicts in the shared namespace.
-- Use `oc delete` if you need to clean up resources after each lab:
-  ```sh
-  oc delete all -l app=postgresql-<username>
-  ```
