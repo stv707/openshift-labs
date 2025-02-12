@@ -182,28 +182,6 @@ Open the  URL in your browser to verify the v2 of the deployment.
 
 ---
 
-## Step 5: Performing update on container image
-
-Once all resources are created, check if your application is running correctly.
-
-### Check the Pods
-
-```sh
-oc get pods
-```
-
-### Set the image in deployment to new image 
-
-Run the following command :
-
-```sh
-oc set image deployment/kubia-<username> kubia=stv707/kubia:v2
-```
-
-Open the  URL in your browser to verify the v2 of the deployment.
-
----
-
 ## Step 6: Performing rollback on deployment
 
 Once all resources are created, check if your application is running correctly.
