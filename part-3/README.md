@@ -164,6 +164,5 @@ Delete a PostgreSQL pod and ensure data remains intact.
    psql -U user -d sampledb -c "SELECT * FROM test;"
 
    $ exit 
-   ```
-
+  ```
 ---

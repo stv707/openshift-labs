@@ -21,11 +21,11 @@ spec:
         image: mcr.microsoft.com/mssql/server:2022-latest
         resources:
           requests:
-            memory: "2G"
-            cpu: "2000m"
+            memory: "512M"
+            cpu: "500m"
           limits:
-            memory: "2G"
-            cpu: "2000m"
+            memory: "512M"
+            cpu: "500m"
         ports:
         - containerPort: 1433
         securityContext:
@@ -61,4 +61,4 @@ spec:
     - protocol: TCP
       port: 1433
       targetPort: 1433
-  type: ClusterIP
+  type: LoadBalancer
