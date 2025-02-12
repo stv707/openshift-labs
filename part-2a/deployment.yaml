@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubia-<username>
+  labels:
+    app: kubia-<username>
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kubia-<username>
+  template:
+    metadata:
+      labels:
+        app: kubia-<username>
+    spec:
+      containers:
+        - name: kubia
+          image: stv707/kubia:v1
+          ports:
+            - containerPort: 8080

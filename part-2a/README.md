@@ -1,7 +1,5 @@
 ## Part 2a: Advanced OpenShift Operations
-
-# OpenShift YAML Deployment Exercise
-
+## OpenShift YAML Deployment Exercise
 ## Introduction
 
 In this exercise, you will learn how to deploy applications in OpenShift using YAML files. You will create the following resources:
@@ -48,7 +46,6 @@ spec:
 ```
 
 ### Apply the Deployment
-
 Run the following command to deploy:
 
 ```sh
@@ -58,13 +55,14 @@ oc apply -f deployment.yaml
 Verify the deployment:
 
 ```sh
-oc get deployments
+oc get deployment -l app=kubia-<username> 
+
+oc get pod -l app=kubia-<username> 
 ```
 
 ---
 
 ## Step 2: Create the Service
-
 Create a YAML file called **service.yaml** with the following content:
 
 ```yaml
@@ -95,7 +93,7 @@ oc apply -f service.yaml
 Verify the service:
 
 ```sh
-oc get services
+oc get service -l app=kubia-<username> 
 ```
 
 ---
@@ -160,6 +158,75 @@ Open the displayed URL in your browser to verify the deployment.
 
 ---
 
+## Step 5: Performing update on container image
+
+Once all resources are created, check if your application is running correctly.
+
+### Check the Pods
+
+```sh
+oc get pods
+```
+
+### Set the image in deployment to new image 
+
+Run the following command :
+
+```sh
+oc set image deployment/kubia-<username> kubia=stv707/kubia:v2
+```
+
+Open the  URL in your browser to verify the v2 of the deployment.
+
+---
+
+## Step 5: Performing update on container image
+
+Once all resources are created, check if your application is running correctly.
+
+### Check the Pods
+
+```sh
+oc get pods
+```
+
+### Set the image in deployment to new image 
+
+Run the following command :
+
+```sh
+oc set image deployment/kubia-<username> kubia=stv707/kubia:v2
+```
+
+Open the  URL in your browser to verify the v2 of the deployment.
+
+---
+
+## Step 6: Performing rollback on deployment
+
+Once all resources are created, check if your application is running correctly.
+
+### Check the Pods
+
+```sh
+oc get pods
+```
+
+### Set the image in deployment to new image 
+
+Run the following command :
+
+```sh
+oc rollout undo deployment/kubia-<username>
+```
+
+Open the  URL in your browser to verify the rollback to v1  of the deployment.
+
+---
+
+
+
+
 ## Cleanup (Optional)
 
 If you want to remove all created resources, run the following commands:
@@ -175,7 +242,5 @@ oc delete route kubia-<username>
 ## Conclusion
 
 You have successfully deployed an application in OpenShift using YAML files! 🎉
-
-Modify `<username>` with your actual username in all YAML files to ensure uniqueness when deploying in a shared namespace.
 
 ---
