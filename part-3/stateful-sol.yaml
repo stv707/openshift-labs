@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgresql-steve
+spec:
+  serviceName: "postgresql"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql-steve
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      containers:
+      - name: postgresql
+        image: bitnami/postgresql:latest
+        env:
+        - name: POSTGRESQL_USER
+          value: "user"
+        - name: POSTGRESQL_PASSWORD
+          value: "password2025"
+        - name: POSTGRESQL_DATABASE
+          value: "sampledb"
+        volumeMounts:
+        - mountPath: "/bitnami/postgresql"
+          name: postgresql-storage  
+      volumes:
+      - name: postgresql-storage
+        persistentVolumeClaim:
+          claimName: postgresql-pvc-steve 
