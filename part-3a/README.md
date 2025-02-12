@@ -137,31 +137,14 @@ oc get service
 ```
 
 
+## Step 4: Verify Deployment logs 
 
-## Step 5: Attach PVC to the Deployment
-Patch the deployment to use the created PVC for data storage.
-```sh
-oc set volume deployment/mssql-<username> \
-  --add --name=mssql-storage \
-  --mount-path=/var/opt/mssql \
-  --claim-name=mssql-pvc-<username>
-```
-Verify the storage is mounted:
-```sh
-oc get pvc
-```
-
-## Step 6: Verify Deployment
-Check if the pod is running:
-```sh
-oc get pods
-```
 To check logs:
 ```sh
 oc logs deployment/mssql-<username>
 ```
 
-## Step 7: Accessing SQL Server
+## Step 5: Accessing SQL Server
 To connect to the SQL Server container, open a terminal session inside the running pod:
 ```sh
 oc rsh $(oc get pod -l app=mssql-<username> -o jsonpath="{.items[0].metadata.name}")
@@ -171,7 +154,7 @@ Inside the pod, connect using `sqlcmd`:
 /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'MyStrong!Passw0rd'
 ```
 
-## Step 8: Create a Sample Database
+## Step 6: Create a Sample Database
 Run the following commands inside `sqlcmd`:
 ```sql
 CREATE DATABASE SampleDB;
@@ -190,11 +173,6 @@ To exit `sqlcmd`, type:
 EXIT
 ```
 
-## Cleanup (Optional)
-If you want to delete your deployment and project:
-```sh
-oc delete project mssql-<username>
-```
 
 ## Conclusion
 You have successfully deployed a Microsoft SQL Server container on OpenShift, exposed it as a service, and created a sample database. Ensure to use your unique username in resource names to prevent conflicts.
