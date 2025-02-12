@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mssql-deployment
+  name: mssql-deployment-<username>
 spec:
   replicas: 1
   selector:
@@ -21,11 +21,11 @@ spec:
         image: mcr.microsoft.com/mssql/server:2022-latest
         resources:
           requests:
-            memory: "2G"
-            cpu: "2000m"
+            memory: "512M"
+            cpu: "500m"
           limits:
-            memory: "2G"
-            cpu: "2000m"
+            memory: "512M"
+            cpu: "500m"
         ports:
         - containerPort: 1433
         securityContext:
@@ -40,7 +40,7 @@ spec:
         - name: MSSQL_SA_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mssql
+              name: mssql-<username>
               key: MSSQL_SA_PASSWORD
         volumeMounts:
         - name: mssqldb
@@ -48,12 +48,12 @@ spec:
       volumes:
       - name: mssqldb
         persistentVolumeClaim:
-          claimName: mssql-data
+          claimName: mssql-data-<username>
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mssql-deployment
+  name: mssql-deployment-<username>
 spec:
   selector:
     app: mssql
