@@ -141,17 +141,17 @@ oc get service
 
 To check logs:
 ```sh
-oc logs deployment/mssql-<username>
+oc logs deployment/mssql-deployment-<username>
 ```
 
 ## Step 5: Accessing SQL Server
 To connect to the SQL Server container, open a terminal session inside the running pod:
 ```sh
-oc rsh $(oc get pod -l app=mssql-<username> -o jsonpath="{.items[0].metadata.name}")
+oc rsh deployment/mssql-deployment-steve
 ```
 Inside the pod, connect using `sqlcmd`:
 ```sh
-/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'MyStrong!Passw0rd'
+/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'MyStrong!Passw0rd' -C
 ```
 
 ## Step 6: Create a Sample Database
@@ -159,20 +159,34 @@ Run the following commands inside `sqlcmd`:
 ```sql
 CREATE DATABASE SampleDB;
 GO
+```
+
+```sql 
 USE SampleDB;
 GO
+```
+
+```sql 
 CREATE TABLE Customers (ID INT PRIMARY KEY, Name NVARCHAR(50));
 GO
+```
+
+```sql 
 INSERT INTO Customers VALUES (1, 'John Doe');
 GO
+```
+
+```sql 
 SELECT * FROM Customers;
 GO
 ```
+
+
 To exit `sqlcmd`, type:
+
 ```sql
 EXIT
 ```
-
 
 ## Conclusion
 You have successfully deployed a Microsoft SQL Server container on OpenShift, exposed it as a service, and created a sample database. Ensure to use your unique username in resource names to prevent conflicts.
