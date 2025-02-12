@@ -8,6 +8,8 @@ In this exercise, you will learn how to deploy applications in OpenShift using Y
 - **Pods**: Runs your application containers.
 - **Service**: Exposes your application internally within OpenShift.
 - **Route**: Exposes your application externally via OpenShift’s router.
+- **Update Image** : Update the container image in Deployment
+- **Undo Update** : Undo a rollout of deployment 
 
 ### Prerequisites
 
@@ -223,8 +225,6 @@ oc rollout undo deployment/kubia-<username>
 Open the  URL in your browser to verify the rollback to v1  of the deployment.
 
 ---
-
-
 
 
 ## Cleanup (Optional)
