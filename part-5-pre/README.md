@@ -111,14 +111,13 @@ spec:
 Label specific worker nodes for project scheduling.
 
 ```powershell
-oc label node worker21 workload=student-projects
-oc label node worker22 workload=student-projects
-oc label node worker23 workload=student-projects
-oc label node worker24 workload=student-projects
-oc label node worker25 workload=student-projects
-oc label node worker26 workload=student-projects
-oc label node worker31 workload=student-projects
-Write-Output "Worker nodes labeled for student projects."
+$nodes = @("worker21", "worker22", "worker23", "worker24", "worker25", "worker26", "worker31")
+
+foreach ($node in $nodes) {
+    oc label node $node trainingload=student-projects --overwrite
+    Write-Output "Node $node labeled with trainingload=student-projects."
+}
+
 ```
 
 ## Step 6: Assign Namespace to Specific Worker Nodes
@@ -133,9 +132,10 @@ $students = @(
 foreach ($student in $students) {
     $namespace = $student.ToLower()
 
-    oc annotate namespace $namespace openshift.io/node-selector="workload=student-projects" --overwrite
-    Write-Output "Namespace $namespace restricted to specific nodes."
+    oc annotate namespace $namespace openshift.io/node-selector="trainingload=student-projects" --overwrite
+    Write-Output "Namespace $namespace restricted to specific nodes with trainingload=student-projects."
 }
+
 
 ```
 
