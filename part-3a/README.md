@@ -189,5 +189,67 @@ To exit `sqlcmd`, type:
 EXIT
 ```
 
-## Conclusion
-You have successfully deployed a Microsoft SQL Server container on OpenShift, exposed it as a service, and created a sample database. Ensure to use your unique username in resource names to prevent conflicts.
+Exit the continer: 
+```sh 
+exit 
+```
+
+## Step 7: Delete the deployment and recreate : 
+
+- in this step you will delete the deployment and recreate to ensure the data is not lost as we are using PVC 
+
+- Delete the deployment and verify the container MSSQL is not there
+```sh
+oc delete -f .\mssql-deployment-sol.yaml
+
+oc get pod
+
+oc get pvc
+
+```
+
+
+- Recreate the deployment: 
+```sh
+oc apply -f mssql-deployment.yaml
+
+oc get pod 
+
+oc get deployment 
+
+oc get pvc 
+
+oc get service 
+```
+
+- Verify the database and data are intact: 
+
+```sh
+oc rsh deployment/mssql-deployment-<username> bash
+```
+Inside the pod, connect using `sqlcmd`:
+```sh
+/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'MyStrong!Passw0rd' -C
+```
+
+```sql 
+USE SampleDB;
+GO
+```
+
+```sql 
+SELECT * FROM Customers;
+GO
+```
+
+To exit `sqlcmd`, type:
+
+```sql
+EXIT
+```
+
+Exit the continer: 
+```sh 
+exit 
+```
+
