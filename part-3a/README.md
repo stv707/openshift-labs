@@ -38,6 +38,8 @@ oc get pvc
 
 ## Step 2: Create Secret to Hold MSSQL Password
 - Ensure you replace `<username>` with your OpenShift username.
+
+# If you change the password!!! USE Microsoft Standard Password Policy for Microsoft SQL !!!!
 ```sh
 oc create secret generic mssql-<username> --from-literal=MSSQL_SA_PASSWORD="MyStrong!Passw0rd"
 ```
