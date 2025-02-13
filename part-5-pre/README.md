@@ -34,8 +34,8 @@ Each project will be assigned an OpenShift RoleBinding to restrict access.
 
 ```powershell
 foreach ($student in $students) {
-    oc policy add-role-to-user edit $student@sudatel.sd -n $student
-    Write-Output "Assigned user $student to project $student."
+    oc adm policy add-role-to-user edit $student -n $student
+    Write-Output "Assigned AD user $student to project $student."
 }
 ```
 
