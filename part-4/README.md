@@ -171,14 +171,16 @@ spec:
    ```sh
    oc apply -f mysql-deployment.yaml
    ```
-2. Apply the WordPress configurations:
-   ```sh
-   oc apply -f wordpress-deployment.yaml
-   ```
+
 3. Expose the services:
    ```sh
    oc apply -f services.yaml
+
+3. Apply the WordPress configurations:
+   ```sh
+   oc apply -f wordpress-deployment.yaml
    ```
+   
 4. Get the WordPress route:
    ```sh
    oc get route wordpress-route-<username> -n trainingdev

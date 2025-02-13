@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service-<username> # Change This 
+  namespace: trainingdev
+spec:
+  selector:
+    app: mysql-<username> # Change This 
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-service-<username> # Change This 
+  namespace: trainingdev
+spec:
+  selector:
+    app: wordpress-<username> # Change This 
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata: 
+  name: wordpress-route-<username> # Change This 
+  namespace: trainingdev
+spec:
+  to:
+    kind: Service
+    name: wordpress-service-<username> # Change This 
+  port:
+    targetPort: 80

@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret-steve # Change This 
+  namespace: trainingdev
+stringData:
+  MYSQL_ROOT_PASSWORD: rootpassword 
+  MYSQL_DATABASE: wordpress
+  MYSQL_USER: wpuser
+  MYSQL_PASSWORD: wppassword
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc-steve # Change This 
+  namespace: trainingdev
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment-steve # Change This 
+  namespace: trainingdev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-steve # Change This 
+  template:
+    metadata:
+      labels:
+        app: mysql-steve # Change This 
+    spec:
+      containers:
+      - name: mysql
+        image: registry.redhat.io/rhel8/mysql-80:latest
+        envFrom:
+        - secretRef:
+            name: mysql-secret-steve # Change This 
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql/data
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc-steve # Change This 

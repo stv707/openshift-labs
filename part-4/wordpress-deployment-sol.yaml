@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wordpress-pvc-steve # Change This 
+  namespace: trainingdev
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-deployment-steve
+  namespace: trainingdev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress-steve
+  template:
+    metadata:
+      labels:
+        app: wordpress-steve
+    spec:
+      securityContext:
+        runAsNonRoot: true  # Ensure it runs as a non-root user
+      containers:
+      - name: wordpress
+        image: docker.io/bitnami/wordpress:latest  # Bitnami WordPress (supports OpenShift)
+        env:
+        - name: WORDPRESS_DATABASE_HOST
+          value: mysql-service-steve
+        - name: WORDPRESS_DATABASE_USER
+          value: wpuser
+        - name: WORDPRESS_DATABASE_PASSWORD
+          value: wppassword
+        - name: WORDPRESS_DATABASE_NAME
+          value: wordpress
+        ports:
+        - containerPort: 8080
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true  # Remove explicit runAsUser
+        volumeMounts:
+        - name: wordpress-storage
+          mountPath: /bitnami/wordpress
+      volumes:
+      - name: wordpress-storage
+        persistentVolumeClaim:
+          claimName: wordpress-pvc-steve
