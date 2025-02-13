@@ -148,7 +148,7 @@ oc logs deployment/mssql-deployment-<username>
 ## Step 5: Accessing SQL Server
 To connect to the SQL Server container, open a terminal session inside the running pod:
 ```sh
-oc rsh deployment/mssql-deployment-steve bash
+oc rsh deployment/mssql-deployment-<username> bash
 ```
 Inside the pod, connect using `sqlcmd`:
 ```sh
