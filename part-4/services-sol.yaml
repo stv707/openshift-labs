@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mysql-service-steve # Change This 
-  namespace: trainingdev
+  namespace: stevedemo
 spec:
   selector:
     app: mysql-steve # Change This 
@@ -15,7 +15,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: wordpress-service-steve # Change This 
-  namespace: trainingdev
+  namespace: stevedemo
 spec:
   selector:
     app: wordpress-steve # Change This 
@@ -28,7 +28,7 @@ apiVersion: route.openshift.io/v1
 kind: Route
 metadata: 
   name: wordpress-route-steve # Change This 
-  namespace: trainingdev
+  namespace: stevedemo
 spec:
   to:
     kind: Service

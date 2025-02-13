@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: mysql-secret-steve # Change This 
-  namespace: trainingdev
+  namespace: stevedemo
 stringData:
   MYSQL_ROOT_PASSWORD: rootpassword 
   MYSQL_DATABASE: wordpress
@@ -13,19 +13,20 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mysql-pvc-steve # Change This 
-  namespace: trainingdev
+  namespace: stevedemo
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
+  storageClassName: nfs-client 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql-deployment-steve # Change This 
-  namespace: trainingdev
+  namespace: stevedemo
 spec:
   replicas: 1
   selector:
