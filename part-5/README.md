@@ -1,5 +1,5 @@
 
-**Online Boutique** is a cloud-first microservices demo application.  The application is a
+**Online Boutique** is a  microservices demo application.  The application is a
 web-based e-commerce app where users can browse items, add them to the cart, and purchase them.
 
 
@@ -32,8 +32,47 @@ microservices](/docs/img/architecture-diagram.png)](/docs/img/architecture-diagr
 | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | [![Screenshot of store homepage](/docs/img/online-boutique-frontend-1.png)](/docs/img/online-boutique-frontend-1.png) | [![Screenshot of checkout screen](/docs/img/online-boutique-frontend-2.png)](/docs/img/online-boutique-frontend-2.png) |
 
+
+
+
 ## Deployment in OpenShift 
 
-1. 
+* This deployment requires your own project/namespace 
+* This is a Example Microservices - Non Production
+* Each student/user must have own Namespace/Project to create this deployment 
 
 
+1. Create all service account in your project 
+
+```sh 
+oc apply -f .\release\svc_account.yaml
+```
+
+2. Verify the service accounts are created 
+```sh 
+oc get serviceaccount 
+```
+
+3. Create the Microservices Deployments 
+```sh 
+ oc apply -f .\release\openshift-manifests.yaml
+```
+
+4. Verify all 12 container/deployment are created 
+```sh 
+oc get pod 
+
+oc get deployment
+```
+
+5. expose the frontend service 
+```sh 
+ oc expose service/frontend-external
+ ```
+
+ 6. Get the URL of route and access the application 
+ ```sh 
+ oc get route 
+ ```
+
+ 
