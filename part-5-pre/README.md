@@ -24,8 +24,9 @@ $students = @(
 )
 
 foreach ($student in $students) {
-    oc new-project $student
-    Write-Output "Project $student created."
+    $namespace = $student.ToLower()
+    oc new-project $namespace
+    Write-Output "Project $namespace created for user $student."
 }
 ```
 
