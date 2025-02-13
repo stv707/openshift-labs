@@ -52,7 +52,7 @@ Limit CPU and memory usage per project.
 foreach ($student in $students) {
     $namespace = $student.ToLower()
 
-    oc apply -f - <<EOF
+    $yaml = @"
 apiVersion: v1
 kind: ResourceQuota
 metadata:
@@ -65,10 +65,13 @@ spec:
     requests.memory: "4Gi"
     limits.cpu: "4"
     limits.memory: "8Gi"
-EOF
+"@
+
+    $yaml | oc apply -f -
 
     Write-Output "ResourceQuota applied to project $namespace."
 }
+
 
 ```
 
@@ -79,7 +82,7 @@ Define container-level CPU and memory limits.
 foreach ($student in $students) {
     $namespace = $student.ToLower()
 
-    oc apply -f - <<EOF
+    $yaml = @"
 apiVersion: v1
 kind: LimitRange
 metadata:
@@ -94,10 +97,13 @@ spec:
       cpu: "250m"
       memory: "256Mi"
     type: Container
-EOF
+"@
+
+    $yaml | oc apply -f -
 
     Write-Output "LimitRange applied to project $namespace."
 }
+
 
 ```
 
