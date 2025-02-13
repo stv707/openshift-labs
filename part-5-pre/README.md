@@ -130,10 +130,10 @@ foreach ($student in $students) {
 
 ## Conclusion
 By completing this exercise, you:
-✅ Created **projects** for students.
-✅ Assigned **user groups** and **roles**.
-✅ Configured **ResourceQuota** and **LimitRange**.
-✅ Labeled worker nodes and assigned namespaces to specific worker nodes.
+* ✅ Created **projects** for students.
+* ✅ Assigned **user groups** and **roles**.
+* ✅ Configured **ResourceQuota** and **LimitRange**.
+* ✅ Labeled worker nodes and assigned namespaces to specific worker nodes.
 
-This setup ensures proper project isolation, access control, and resource management in OpenShift. 🚀
+This setup ensures proper project isolation, access control, and resource management in OpenShift. 
 
