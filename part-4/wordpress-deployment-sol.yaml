@@ -13,17 +13,17 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wordpress-deployment-steve
+  name: wordpress-deployment-steve # Change This 
   namespace: trainingdev
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: wordpress-steve
+      app: wordpress-steve # Change This 
   template:
     metadata:
       labels:
-        app: wordpress-steve
+        app: wordpress-steve # Change This 
     spec:
       securityContext:
         runAsNonRoot: true  # Ensure it runs as a non-root user
@@ -32,7 +32,7 @@ spec:
         image: docker.io/bitnami/wordpress:latest  # Bitnami WordPress (supports OpenShift)
         env:
         - name: WORDPRESS_DATABASE_HOST
-          value: mysql-service-steve
+          value: mysql-service-steve # Change This 
         - name: WORDPRESS_DATABASE_USER
           value: wpuser
         - name: WORDPRESS_DATABASE_PASSWORD
@@ -50,4 +50,4 @@ spec:
       volumes:
       - name: wordpress-storage
         persistentVolumeClaim:
-          claimName: wordpress-pvc-steve
+          claimName: wordpress-pvc-steve # Change This 

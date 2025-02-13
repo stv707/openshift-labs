@@ -21,7 +21,7 @@ spec:
     app: wordpress-<username> # Change This 
   ports:
     - protocol: TCP
-      port: 80
+      port: 8080
       targetPort: 8080
 ---
 apiVersion: route.openshift.io/v1
@@ -34,4 +34,7 @@ spec:
     kind: Service
     name: wordpress-service-<username> # Change This 
   port:
-    targetPort: 80
+    targetPort: 8080
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

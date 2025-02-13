@@ -14,10 +14,10 @@ This exercise will guide students through deploying a WordPress application with
 apiVersion: v1
 kind: Secret
 metadata:
-  name: mysql-secret-<username>
+  name: mysql-secret-<username> # Change This 
   namespace: trainingdev
 stringData:
-  MYSQL_ROOT_PASSWORD: rootpassword
+  MYSQL_ROOT_PASSWORD: rootpassword 
   MYSQL_DATABASE: wordpress
   MYSQL_USER: wpuser
   MYSQL_PASSWORD: wppassword
@@ -25,7 +25,7 @@ stringData:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-pvc-<username>
+  name: mysql-pvc-<username> # Change This 
   namespace: trainingdev
 spec:
   accessModes:
@@ -37,24 +37,24 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql-deployment-<username>
+  name: mysql-deployment-<username> # Change This 
   namespace: trainingdev
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mysql-<username>
+      app: mysql-<username> # Change This 
   template:
     metadata:
       labels:
-        app: mysql-<username>
+        app: mysql-<username> # Change This 
     spec:
       containers:
       - name: mysql
         image: registry.redhat.io/rhel8/mysql-80:latest
         envFrom:
         - secretRef:
-            name: mysql-secret-<username>
+            name: mysql-secret-<username> # Change This 
         ports:
         - containerPort: 3306
         volumeMounts:
@@ -63,7 +63,7 @@ spec:
       volumes:
       - name: mysql-storage
         persistentVolumeClaim:
-          claimName: mysql-pvc-<username>
+          claimName: mysql-pvc-<username> # Change This 
 ```
 
 ## Step 2: Create a WordPress Deployment
@@ -72,7 +72,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: wordpress-pvc-<username>
+  name: wordpress-pvc-<username> # Change This 
   namespace: trainingdev
 spec:
   accessModes:
@@ -84,44 +84,45 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wordpress-deployment-<username>
+  name: wordpress-deployment-<username> # Change This 
   namespace: trainingdev
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: wordpress-<username>
+      app: wordpress-<username> # Change This 
   template:
     metadata:
       labels:
-        app: wordpress-<username>
+        app: wordpress-<username> # Change This 
     spec:
       securityContext:
-        runAsNonRoot: true
+        runAsNonRoot: true  # Ensure it runs as a non-root user
       containers:
       - name: wordpress
-        image: registry.redhat.io/rhel8/php-74:latest
+        image: docker.io/bitnami/wordpress:latest  # Bitnami WordPress (supports OpenShift)
         env:
-        - name: WORDPRESS_DB_HOST
-          value: mysql-deployment-<username>
-        - name: WORDPRESS_DB_USER
+        - name: WORDPRESS_DATABASE_HOST
+          value: mysql-service-<username> # Change This 
+        - name: WORDPRESS_DATABASE_USER
           value: wpuser
-        - name: WORDPRESS_DB_PASSWORD
+        - name: WORDPRESS_DATABASE_PASSWORD
           value: wppassword
-        - name: WORDPRESS_DB_NAME
+        - name: WORDPRESS_DATABASE_NAME
           value: wordpress
         ports:
         - containerPort: 8080
         securityContext:
           allowPrivilegeEscalation: false
-          runAsUser: 1001
+          runAsNonRoot: true  # Remove explicit runAsUser
         volumeMounts:
         - name: wordpress-storage
-          mountPath: /var/www/html
+          mountPath: /bitnami/wordpress
       volumes:
       - name: wordpress-storage
         persistentVolumeClaim:
-          claimName: wordpress-pvc-<username>
+          claimName: wordpress-pvc-<username> # Change This 
+
 ```
 
 ## Step 3: Expose the Services
@@ -130,11 +131,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-service-<username>
+  name: mysql-service-<username> # Change This 
   namespace: trainingdev
 spec:
   selector:
-    app: mysql-<username>
+    app: mysql-<username> # Change This 
   ports:
     - protocol: TCP
       port: 3306
@@ -143,27 +144,31 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: wordpress-service-<username>
+  name: wordpress-service-<username> # Change This 
   namespace: trainingdev
 spec:
   selector:
-    app: wordpress-<username>
+    app: wordpress-<username> # Change This 
   ports:
     - protocol: TCP
-      port: 80
+      port: 8080
       targetPort: 8080
 ---
 apiVersion: route.openshift.io/v1
 kind: Route
-metadata:
-  name: wordpress-route-<username>
+metadata: 
+  name: wordpress-route-<username> # Change This 
   namespace: trainingdev
 spec:
   to:
     kind: Service
-    name: wordpress-service-<username>
+    name: wordpress-service-<username> # Change This 
   port:
-    targetPort: 80
+    targetPort: 8080
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+
 ```
 
 ## Deployment Instructions
@@ -172,7 +177,7 @@ spec:
    oc apply -f mysql-deployment.yaml
    ```
 
-3. Expose the services:
+2. Expose the services:
    ```sh
    oc apply -f services.yaml
 
