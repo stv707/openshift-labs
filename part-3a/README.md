@@ -76,11 +76,11 @@ spec:
         image: mcr.microsoft.com/mssql/server:2022-latest
         resources:
           requests:
-            memory: "512M"
-            cpu: "500m"
+            memory: "1G"
+            cpu: "1000m"
           limits:
-            memory: "512M"
-            cpu: "500m"
+            memory: "2G"
+            cpu: "2000m"
         ports:
         - containerPort: 1433
         securityContext:
@@ -92,6 +92,8 @@ spec:
           value: "Developer"
         - name: ACCEPT_EULA
           value: "Y"
+        - name: MSSQL_TCP_PORT
+          value: "1433" 
         - name: MSSQL_SA_PASSWORD
           valueFrom:
             secretKeyRef:
