@@ -19,8 +19,8 @@ Each student will have a project based on their email alias:
 
 ```powershell
 $students = @(
-    "khalid.ahmed", "abdelmaged", "abdalkhalig", "bakry", "azzaet", 
-    "sana", "ghofrana", "linam", "ahmedya", "musabsaz", "musabsm", "alrasheed"
+    "Khalid.ahmed", "abdelmaged", "Abdalkhalig", "Bakry", "azzaet", 
+    "Sana", "ghofrana", "Linam", "ahmedya", "musabsaz", "Musabsm", "alrasheed"
 )
 
 foreach ($student in $students) {
@@ -103,8 +103,8 @@ Ensure all workloads created in the project are scheduled only on worker22, work
 
 ```powershell
 $students = @(
-    "khalid.ahmed", "abdelmaged", "abdalkhalig", "bakry", "azzaet", 
-    "sana", "ghofrana", "linam", "ahmedya", "musabsaz", "musabsm", "alrasheed"
+    "Khalid.ahmed", "abdelmaged", "Abdalkhalig", "Bakry", "azzaet", 
+    "Sana", "ghofrana", "Linam", "ahmedya", "musabsaz", "Musabsm", "alrasheed"
 )
 
 foreach ($student in $students) {
