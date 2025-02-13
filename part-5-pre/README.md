@@ -158,8 +158,6 @@ foreach ($student in $students) {
 
 ```
 
----
-
 ## Conclusion
 By completing this exercise, you:
 * ✅ Created **projects** for students.
@@ -169,3 +167,40 @@ By completing this exercise, you:
 
 This setup ensures proper project isolation, access control, and resource management in OpenShift. 
 
+
+---
+
+# # WARNING #
+
+* Undo all above ( revert everything )
+
+```powershell
+
+# Define student namespaces
+$students = @(
+    "Khalid.ahmed", "abdelmaged", "Abdalkhalig", "Bakry", "azzaet", 
+    "Sana", "ghofrana", "Linam", "ahmedya", "musabsaz", "Musabsm", "alrasheed"
+)
+
+# Define worker nodes
+$nodes = @("worker21", "worker22", "worker23", "worker24", "worker25", "worker26", "worker31")
+
+# Convert namespaces to lowercase and delete them
+foreach ($student in $students) {
+    $namespace = $student.ToLower()
+
+    Write-Output "Deleting namespace $namespace..."
+    oc delete namespace $namespace --ignore-not-found=true
+}
+
+Write-Output "All student namespaces deleted."
+
+# Remove labels from worker nodes
+foreach ($node in $nodes) {
+    Write-Output "Removing trainingload label from $node..."
+    oc label node $node trainingload- --overwrite
+}
+
+Write-Output "All node labels removed."
+
+```
