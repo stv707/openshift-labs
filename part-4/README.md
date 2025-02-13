@@ -9,6 +9,7 @@ This exercise will guide students through deploying a WordPress application with
 - OpenShift CLI (`oc`) installed
 
 ## Step 1: Create a MySQL Database Deployment
+- filename: mysql-deployment.yaml
 
 ```yaml
 apiVersion: v1
@@ -67,6 +68,7 @@ spec:
 ```
 
 ## Step 2: Create a WordPress Deployment
+- filename: wordpress-deployment.yaml
 
 ```yaml
 apiVersion: v1
@@ -125,7 +127,8 @@ spec:
 
 ```
 
-## Step 3: Expose the Services
+## Step 3: Create services and route to Expose the Services
+- filename: services.yaml
 
 ```yaml
 apiVersion: v1
@@ -181,6 +184,7 @@ spec:
    ```sh
    oc apply -f services.yaml
 
+
 3. Apply the WordPress configurations:
    ```sh
    oc apply -f wordpress-deployment.yaml
@@ -191,6 +195,7 @@ spec:
    oc get route wordpress-route-<username> -n trainingdev
    ```
 5. Access WordPress via the displayed route URL.
+
 
 ## Conclusion
 You have successfully deployed a multi-container WordPress and MySQL setup in OpenShift, ensuring unique resources for each student and running WordPress as a non-root user.

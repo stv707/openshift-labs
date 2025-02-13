@@ -1,0 +1,15 @@
+services:
+  web:
+    image: httpd:2.4
+    container_name: httpd_server
+    ports:
+      - "8080:80"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"      # Limits the container to half a CPU
+          memory: "512M"    # Limits memory to 512 MB
+        reservations:
+          cpus: "0.2"       # Reserves 20% of a CPU
+          memory: "256M"    # Reserves 256 MB of memory
+    restart: always
