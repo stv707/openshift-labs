@@ -65,6 +65,8 @@ spec:
     requests.memory: "4Gi"
     limits.cpu: "4"
     limits.memory: "8Gi"
+    persistentvolumeclaims: "5"
+    requests.storage: "8Gi"
 "@
 
     $yaml | oc apply -f -
